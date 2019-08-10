@@ -11,7 +11,7 @@ flash: build
 	stcgal -P ${PROTOCOL} -p ${DEVICE} ${BUILD_DIR}${OUTPUT} 
 
 ${OUTPUT}:
-	sdcc -o $(BUILD_DIR) ${SRC_DIR}${ENTRY}
+	mkdir build && sdcc -o $(BUILD_DIR) ${SRC_DIR}${ENTRY}
 
 clean:
 	rm -f ${BUILD_DIR}*
