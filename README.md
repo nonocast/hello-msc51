@@ -100,4 +100,8 @@ make
 make flash
 ```
 
+references
+- [[MCS51] MAC 底下單片機(8051)的開發方法 - 简书](https://www.jianshu.com/p/b6c40741df45)
+- [单片机---Mac下的开发环境【1】（STC单片机 + SDCC + Stcgal） - 简书](https://www.jianshu.com/p/88a714042cd4)
+
 #EOF
