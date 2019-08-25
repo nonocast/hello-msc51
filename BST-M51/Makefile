@@ -3,7 +3,7 @@ SRC_DIR= src/
 ENTRY=app.c
 OUTPUT=app.ihx
 PROTOCOL=stc89
-DEVICE=/dev/tty.usbserial-1430
+DEVICE=/dev/tty.usbserial-14310
 
 build: ${OUTPUT}
 
@@ -15,3 +15,11 @@ ${OUTPUT}:
 
 clean:
 	rm -f ${BUILD_DIR}*
+
+test-compile:
+	gcc test/test.c -o build/test
+
+test: test-compile
+	./build/test
+
+.PHONY: all test clean

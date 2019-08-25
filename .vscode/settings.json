@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "8052.h": "c"
+    "8052.h": "c",
+    "check.h": "c"
   }
 }
