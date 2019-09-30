@@ -1,6 +1,19 @@
 #include <8052.h>
+#define true 1
+#define false 0
+typedef unsigned char BYTE;
+typedef unsigned int WORD;
 
-unsigned char codes[17] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f, 0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00};
+void usartConfig() {
+  SCON = 0x50;
+  TMOD = 0x20;
+  PCON = 0x00;
+  TH1 = 0xfd;
+  TL1 = 0xfd;
+  ES = 1;
+  EA = 1;
+  TR1 = 1;
+}
 
 void delay(unsigned int i) {
   unsigned char j;
@@ -9,29 +22,72 @@ void delay(unsigned int i) {
       ;
 }
 
-// light(~(0x01 << (i%8)))
-void light(int i) {
-  P1 = i;
-}
-
 void beep(int i) {
   P2_3 = i;
 }
 
-void led(unsigned char c) {
-  P2_4 = 1;
-  P2_5 = 1;
-  P2_6 = 1;
-  P2_7 = 1;
-  P0 = c;
-}
-
 void main() {
-  int i = 0;
-  while (++i) {
-    delay(1000);
-    beep(i % 2);
-    led(codes[i % 17]);
-    light(~(0x01 << (i % 8)));
+  usartConfig();
+
+  // all led off
+  P1 = 0xff;
+
+  while (true) {
+    if (P3_4 == 0) {
+      // 去干扰
+      delay(10);
+      if (P3_4 == 0) {
+        while (P3_4 == 0) {
+          // clicking
+          P1_0 = 0;
+        }
+        // click up
+
+        // send data
+        SBUF = 0x30;
+        while (!TI)
+          ;
+        TI = 0;
+
+        P1_0 = 1;
+      }
+    }
+
+    if (P3_5 == 0) {
+      // 去干扰
+      delay(10);
+      if (P3_5 == 0) {
+        while (P3_5 == 0) {
+          // clicking
+          P1_0 = 0;
+        }
+        // click up
+
+        // send data
+        SBUF = 0x31;
+        while (!TI)
+          ;
+        TI = 0;
+
+        P1_0 = 1;
+      }
+    }
   }
 }
+
+void sendUart(BYTE data) {
+  while (!TI)
+    ;
+  TI = 0;
+  SBUF = data;
+}
+
+// void uart() __interrupt(4) {
+//   unsigned char data;
+//   data = SBUF;
+//   RI = 0;
+//   SBUF = data;
+//   while (!TI)
+//     ;
+//   TI = 0;
+// }
