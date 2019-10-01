@@ -1,19 +1,17 @@
-BUILD_DIR = ./
-SRC_DIR= ./
-ENTRY=app.asm
-OUTPUT=app.ihx
-PROTOCOL=stc89
 DEVICE=/dev/tty.usbserial-14310
 
-build: ${OUTPUT}
+biuld: app.ihx
 
-flash: build
-	stcgal -P ${PROTOCOL} -p ${DEVICE} ${BUILD_DIR}${OUTPUT} 
+flash: app.ihx
+	stcgal -P stc89 -p ${DEVICE} app.ihx
 
-${OUTPUT}:
-	mkdir -p build && sdcc -o $(BUILD_DIR) ${SRC_DIR}${ENTRY}
+app.ihx: app.rel
+	sdld -nf app.lk
+
+app.rel: app.asm
+	sdas8051 -plosgffw app.rel app.asm
 
 clean:
-	rm -f ${BUILD_DIR}*
+	rm *.lst *.rel *.sym *.ihx
 
-.PHONY: all test clean
+.PHONY: all build clean

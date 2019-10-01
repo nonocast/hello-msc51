@@ -1,0 +1,14 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "cross-env DEBUG=app* node app"
+  },
+  "dependencies": {
+    "cross-env": "^6.0.0",
+    "debug": "^4.1.1",
+    "serialport": "^7.1.5"
+  }
+}

@@ -193,6 +193,35 @@ ASxxxx的目标就是从asm生成rel文件，然后通过linker(sdld)将rel生�
 注: sd: small device
 
 
+通过sdcc --version可以看到几个步骤的指令,
+```
++ /usr/local/bin/sdcpp -nostdinc -Wall -std=c11 -obj-ext=.rel -D__SDCC_CHAR_UNSIGNED -D__SDCC_MODEL_SMALL -D__SDCC_FLOAT_REENT -D__SDCC=3_9_0 -D__SDCC_VERSION_MAJOR=3 -D__SDCC_VERSION_MINOR=9 -D__SDCC_VERSION_PATCH=0 -DSDCC=390 -D__SDCC_REVISION=11195 -D__SDCC_mcs51 -D__STDC_NO_COMPLEX__=1 -D__STDC_NO_THREADS__=1 -D__STDC_NO_ATOMICS__=1 -D__STDC_NO_VLA__=1 -D__STDC_ISO_10646__=201409L -D__STDC_UTF_16__=1 -D__STDC_UTF_32__=1 -isystem /usr/local/bin/../share/sdcc/include/mcs51 -isystem /usr/local/Cellar/sdcc/3.9.0/share/sdcc/include/mcs51 -isystem /usr/local/bin/../share/sdcc/include -isystem /usr/local/Cellar/sdcc/3.9.0/share/sdcc/include  src/app-02.c 
++ /usr/local/bin/sdas8051 -plosgffw build/app-02.rel build/app-02.asm
++ /usr/local/bin/sdld -nf build/app-02.lk
+```
+
+app-02.lk是sdcc自动生成的,
+```
+-muwx
+-i build/app-02.ihx
+-M
+-Y
+-b HOME = 0x0000
+-b XSEG = 0x0001
+-b PSEG = 0x0001
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k /usr/local/bin/../share/sdcc/lib/small
+-k /usr/local/Cellar/sdcc/3.9.0/share/sdcc/lib/small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+build/app-02.rel
+
+-e
+```
 
 
 
