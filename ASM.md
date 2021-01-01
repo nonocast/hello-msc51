@@ -14,7 +14,7 @@ void main() {
 }
 ```
 
-拉高P1_0引脚电压，通过sdcc得到的asm, 
+拉低P1_0引脚电压，通过sdcc得到的asm, 
 
 app.asm
 ```
